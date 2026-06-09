@@ -58,6 +58,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
   const coverInputRef = useRef<HTMLInputElement>(null);
   const mediaInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
+  const mediaFileRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -344,6 +345,41 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
                 className="bg-slate-800 border-slate-700 text-white"
                 placeholder="https://..."
               />
+
+              {(mediaType === 'video' || mediaType === 'audio') && (
+                <>
+                  <p className="text-xs text-slate-400 pt-1">
+                    — или загрузите файл с компьютера —
+                  </p>
+                  <input
+                    ref={mediaFileRef}
+                    type="file"
+                    accept={mediaType === 'video' ? 'video/*' : 'audio/*'}
+                    onChange={handleMediaUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => mediaFileRef.current?.click()}
+                    disabled={uploadingMedia}
+                    className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 gap-2"
+                  >
+                    {uploadingMedia ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="h-4 w-4" />
+                        {mediaType === 'video'
+                          ? 'Загрузить видео-файл'
+                          : 'Загрузить аудио-файл'}
+                      </>
+                    )}
+                  </Button>
+                </>
+              )}
             </div>
           )}
 
