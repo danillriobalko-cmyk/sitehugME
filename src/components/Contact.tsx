@@ -38,17 +38,17 @@ const contactMethods = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@hugme.dev',
+    value: 'de.max11@mail.ru',
   },
   {
     icon: Phone,
     label: 'Phone',
-    value: '+7 (XXX) XXX-XXXX',
+    value: 'В разработке',
   },
   {
     icon: Send,
     label: 'Telegram',
-    value: '@hugME',
+    value: '@Chistopervii321',
   },
 ];
 

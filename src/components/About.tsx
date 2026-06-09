@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { User } from 'lucide-react';
 import { useLang } from '@/hooks/use-lang';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { useCounter } from '@/hooks/use-counter';
@@ -123,8 +122,12 @@ export default function About() {
           <div className="space-y-8">
             {/* Avatar */}
             <div className="flex justify-center lg:justify-start">
-              <div className="w-40 h-40 rounded-full bg-secondary flex items-center justify-center">
-                <User className="w-20 h-20 text-muted-foreground" />
+              <div className="w-40 h-40 rounded-full overflow-hidden bg-secondary border border-border">
+                <img
+                  src="/avatar.png"
+                  alt="hugME"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
 

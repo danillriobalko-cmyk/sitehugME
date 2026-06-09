@@ -37,7 +37,7 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start gap-2">
             <h3 className="text-lg font-bold text-accent">hugME</h3>
             <p className="text-sm text-muted-foreground">
-              © 2024 hugME. {t('footer.rights')}
+              © 2026 hugME. {t('footer.rights')}
             </p>
           </div>
 
