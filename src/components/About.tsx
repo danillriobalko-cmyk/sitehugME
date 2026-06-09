@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { useLang } from '@/hooks/use-lang';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { useCounter } from '@/hooks/use-counter';
@@ -31,18 +31,62 @@ const skillsRu = [
 ];
 
 const milestones = [
-  { year: 2018, event: 'Started journey' },
+  { year: 2018, event: 'Started the journey' },
   { year: 2020, event: 'First portfolio launch' },
   { year: 2022, event: 'Multi-discipline mastery' },
   { year: 2024, event: 'Full creative studio' },
+  { year: 2025, event: 'New portfolio website' },
+  { year: 2026, event: 'Growth & new projects' },
 ];
 
 const milestonesRu = [
   { year: 2018, event: 'Начало пути' },
-  { year: 2020, event: 'Первый портфолио' },
+  { year: 2020, event: 'Первое портфолио' },
   { year: 2022, event: 'Мастерство во всех областях' },
-  { year: 2024, event: 'Полная творческая студия' },
+  { year: 2024, event: 'Полноценная творческая студия' },
+  { year: 2025, event: 'Новый сайт-портфолио' },
+  { year: 2026, event: 'Развитие и новые проекты' },
 ];
+
+function MilestoneCard({ year, event }: { year: number; event: string }) {
+  const [transform, setTransform] = useState(
+    'perspective(800px) rotateX(0deg) rotateY(0deg)'
+  );
+
+  const handleMove = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    setTransform(
+      `perspective(800px) rotateX(${(-py * 14).toFixed(2)}deg) rotateY(${(
+        px * 14
+      ).toFixed(2)}deg) translateZ(6px)`
+    );
+  };
+
+  const reset = () =>
+    setTransform('perspective(800px) rotateX(0deg) rotateY(0deg)');
+
+  return (
+    <div
+      onMouseMove={handleMove}
+      onMouseLeave={reset}
+      style={{
+        transform,
+        transformStyle: 'preserve-3d',
+        transition:
+          'transform .12s ease-out, box-shadow .2s ease, border-color .2s ease',
+      }}
+      className="group relative rounded-xl border border-border bg-secondary/40 p-5 hover:border-accent/60 hover:shadow-[0_14px_40px_-12px_rgba(124,58,237,0.5)]"
+    >
+      <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-accent/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="relative" style={{ transform: 'translateZ(24px)' }}>
+        <span className="text-2xl font-bold text-accent">{year}</span>
+        <p className="mt-1.5 text-sm text-muted-foreground">{event}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function About() {
   const { t, lang } = useLang();
@@ -133,15 +177,13 @@ export default function About() {
 
             {/* Description */}
             <p className="text-base md:text-lg leading-relaxed text-foreground max-w-xl">
-              Мультидисциплинарный творец, объединяющий видеомонтаж, музыку,
-              разработку игр, программирование, графический дизайн и
-              иллюстрации в единое творческое пространство.
+              {t('about.description')}
             </p>
 
             {/* Skills */}
             <div>
               <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wider">
-                {lang === 'ru' ? 'Навыки' : 'Skills'}
+                {t('about.skills')}
               </h3>
               <div className="flex flex-wrap gap-3">
                 {currentSkills.map((skill) => (
@@ -198,25 +240,20 @@ export default function About() {
               </div>
             </div>
 
-            {/* Timeline */}
-            <div className="relative space-y-6 pl-6">
-              {/* Vertical line */}
-              <div className="absolute left-0 top-0 bottom-0 w-px bg-accent opacity-30" />
-
-              {currentMilestones.map((milestone, idx) => (
-                <div key={idx} className="relative">
-                  {/* Dot */}
-                  <div className="absolute left-[-11px] top-1 w-3 h-3 rounded-full bg-accent" />
-                  <div>
-                    <p className="text-sm font-semibold text-accent">
-                      {milestone.year}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {milestone.event}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            {/* Timeline — 3D cards */}
+            <div>
+              <h3 className="text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wider">
+                {t('about.journey')}
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {currentMilestones.map((milestone) => (
+                  <MilestoneCard
+                    key={milestone.year}
+                    year={milestone.year}
+                    event={milestone.event}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

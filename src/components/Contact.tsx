@@ -9,6 +9,8 @@ import {
   Github,
   Youtube,
   Music2,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { useLang } from '@/hooks/use-lang';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
@@ -39,16 +41,19 @@ const contactMethods = [
     icon: Mail,
     label: 'Email',
     value: 'de.max11@mail.ru',
+    copyable: true,
   },
   {
     icon: Phone,
     label: 'Phone',
     value: 'В разработке',
+    copyable: false,
   },
   {
     icon: Send,
     label: 'Telegram',
     value: '@Chistopervii321',
+    copyable: true,
   },
 ];
 
@@ -75,6 +80,21 @@ export default function Contact() {
   const { ref, isVisible } = useScrollReveal(0.2);
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+
+  const handleCopy = async (value: string, idx: number) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedIdx(idx);
+      toast({ title: t('contact.copied'), description: '' });
+      setTimeout(
+        () => setCopiedIdx((cur) => (cur === idx ? null : cur)),
+        1500
+      );
+    } catch {
+      /* clipboard unavailable — ignore */
+    }
+  };
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -136,15 +156,13 @@ export default function Contact() {
             <div className="space-y-6">
               {contactMethods.map((method, idx) => {
                 const Icon = method.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-4 group cursor-pointer"
-                  >
-                    <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center group-hover:text-accent transition-colors">
+                const isCopied = copiedIdx === idx;
+                const inner = (
+                  <>
+                    <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center group-hover:text-accent transition-colors shrink-0">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <div>
+                    <div className="flex-1 text-left">
                       <p className="text-sm text-muted-foreground">
                         {method.label}
                       </p>
@@ -152,6 +170,27 @@ export default function Contact() {
                         {method.value}
                       </p>
                     </div>
+                    {method.copyable &&
+                      (isCopied ? (
+                        <Check className="w-5 h-5 text-accent shrink-0" />
+                      ) : (
+                        <Copy className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                      ))}
+                  </>
+                );
+
+                return method.copyable ? (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleCopy(method.value, idx)}
+                    className="w-full flex items-center gap-4 group cursor-pointer rounded-lg -mx-2 px-2 py-1 hover:bg-secondary/40 transition-colors"
+                  >
+                    {inner}
+                  </button>
+                ) : (
+                  <div key={idx} className="flex items-center gap-4 group">
+                    {inner}
                   </div>
                 );
               })}

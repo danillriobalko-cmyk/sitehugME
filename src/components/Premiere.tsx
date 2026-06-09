@@ -23,7 +23,7 @@ export function Premiere(): JSX.Element | null {
           .eq('is_featured', true)
           .order('sort_order')
           .limit(1)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error('Error fetching featured work:', error);
