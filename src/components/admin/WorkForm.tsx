@@ -355,7 +355,10 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
               <Input
                 id="year"
                 type="number"
-                {...register('year', { valueAsNumber: true })}
+                {...register('year', {
+                  setValueAs: (v) =>
+                    v === '' || v === null || v === undefined ? null : Number(v),
+                })}
                 className="bg-slate-800 border-slate-700 text-white"
               />
             </div>
@@ -604,7 +607,10 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
             <Input
               id="sort_order"
               type="number"
-              {...register('sort_order', { valueAsNumber: true })}
+              {...register('sort_order', {
+                setValueAs: (v) =>
+                  v === '' || v === null || v === undefined ? 0 : Number(v),
+              })}
               className="bg-slate-800 border-slate-700 text-white"
             />
           </div>
