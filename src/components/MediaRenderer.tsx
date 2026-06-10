@@ -38,7 +38,7 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
         work.media_url.includes('/storage/v1/object/');
       if (isVideoFile) {
         return (
-          <div className={`w-full aspect-video rounded-lg overflow-hidden bg-black ${className}`}>
+          <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
             <video
               src={work.media_url}
               controls
@@ -47,7 +47,7 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
               disablePictureInPicture
               onContextMenu={(e) => e.preventDefault()}
               poster={work.cover_url || undefined}
-              className="w-full h-full object-contain"
+              className="absolute inset-0 w-full h-full object-contain"
             />
           </div>
         );
