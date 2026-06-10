@@ -1,23 +1,6 @@
-import { Github, Youtube, Music2, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { useLang } from '@/hooks/use-lang';
-
-const socials = [
-  {
-    icon: Github,
-    label: 'GitHub',
-    href: '#',
-  },
-  {
-    icon: Youtube,
-    label: 'YouTube',
-    href: '#',
-  },
-  {
-    icon: Music2,
-    label: 'Music',
-    href: '#',
-  },
-];
+import { SocialLinks } from '@/components/SocialLinks';
 
 export default function Footer() {
   const { t } = useLang();
@@ -42,21 +25,7 @@ export default function Footer() {
           </div>
 
           {/* Social Icons */}
-          <div className="flex gap-4">
-            {socials.map((social, idx) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={idx}
-                  href={social.href}
-                  className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
-                  aria-label={social.label}
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
-              );
-            })}
-          </div>
+          <SocialLinks />
 
           {/* Back to Top Button */}
           <button

@@ -2,16 +2,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import {
-  Mail,
-  Phone,
-  Send,
-  Github,
-  Youtube,
-  Music2,
-  Copy,
-  Check,
-} from 'lucide-react';
+import { Mail, Phone, Send, Copy, Check } from 'lucide-react';
+import { SocialLinks } from '@/components/SocialLinks';
 import { useLang } from '@/hooks/use-lang';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { useToast } from '@/hooks/use-toast';
@@ -54,24 +46,6 @@ const contactMethods = [
     label: 'Telegram',
     value: '@Chistopervii321',
     copyable: true,
-  },
-];
-
-const socials = [
-  {
-    icon: Github,
-    label: 'GitHub',
-    href: '#',
-  },
-  {
-    icon: Youtube,
-    label: 'YouTube',
-    href: '#',
-  },
-  {
-    icon: Music2,
-    label: 'Music',
-    href: '#',
   },
 ];
 
@@ -201,21 +175,7 @@ export default function Contact() {
               <p className="text-sm text-muted-foreground mb-4 uppercase tracking-wider">
                 {t('contact.title')}
               </p>
-              <div className="flex gap-4">
-                {socials.map((social, idx) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={idx}
-                      href={social.href}
-                      className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
-                      aria-label={social.label}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </a>
-                  );
-                })}
-              </div>
+              <SocialLinks />
             </div>
           </div>
 
