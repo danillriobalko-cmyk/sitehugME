@@ -123,6 +123,31 @@ export default function Portfolio() {
     fetchWorks();
   }, []);
 
+  // Глубокая ссылка: ?work=<id> открывает модалку нужной работы (для кнопки «Поделиться»).
+  useEffect(() => {
+    const workId = new URLSearchParams(window.location.search).get('work');
+    if (!workId) return;
+    let cancelled = false;
+
+    supabase
+      .from('works')
+      .select('*')
+      .eq('id', workId)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        setSelectedWork(data as Work);
+        setModalOpen(true);
+        document
+          .getElementById('portfolio')
+          ?.scrollIntoView({ behavior: 'smooth' });
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const filteredWorks = useMemo(() => {
     return works.filter((work) => {
       const categoryMatch = selectedCategory === null || work.category === selectedCategory;
@@ -229,7 +254,16 @@ export default function Portfolio() {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="rounded-lg overflow-hidden bg-card border border-border/30 h-80 animate-pulse" />
+              <div
+                key={i}
+                className="rounded-lg overflow-hidden bg-card border border-border/30"
+              >
+                <div className="w-full aspect-video shimmer" />
+                <div className="p-4 space-y-3">
+                  <div className="h-4 w-3/4 rounded shimmer" />
+                  <div className="h-3 w-1/3 rounded shimmer" />
+                </div>
+              </div>
             ))}
           </div>
         ) : filteredWorks.length === 0 ? (

@@ -6,7 +6,7 @@ import { Mail, Phone, Send, Copy, Check } from 'lucide-react';
 import { SocialLinks } from '@/components/SocialLinks';
 import { useLang } from '@/hooks/use-lang';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,7 +52,6 @@ const contactMethods = [
 export default function Contact() {
   const { t } = useLang();
   const { ref, isVisible } = useScrollReveal(0.2);
-  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
 
@@ -60,7 +59,7 @@ export default function Contact() {
     try {
       await navigator.clipboard.writeText(value);
       setCopiedIdx(idx);
-      toast({ title: t('contact.copied'), description: '' });
+      toast.success(t('contact.copied'));
       setTimeout(
         () => setCopiedIdx((cur) => (cur === idx ? null : cur)),
         1500
@@ -90,19 +89,12 @@ export default function Contact() {
 
       if (error) throw error;
 
-      toast({
-        title: t('contact.form.success'),
-        description: '',
-      });
+      toast.success(t('contact.form.success'));
 
       form.reset();
     } catch (err) {
       console.error('Error sending message:', err);
-      toast({
-        title: t('contact.form.error'),
-        description: '',
-        variant: 'destructive',
-      });
+      toast.error(t('contact.form.error'));
     } finally {
       setIsSubmitting(false);
     }

@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Share2 } from 'lucide-react';
 import { useLang } from '@/hooks/use-lang';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { type Work, type Category, workTitle, workDescription } from '@/lib/types';
 import { MediaRenderer } from '@/components/MediaRenderer';
 import { LightboxGallery } from '@/components/LightboxGallery';
@@ -31,7 +31,6 @@ interface WorkModalProps {
 
 export function WorkModal({ work, open, onClose }: WorkModalProps) {
   const { t, lang } = useLang();
-  const { toast } = useToast();
   const [galleryOpen, setGalleryOpen] = useState(false);
 
   if (!work || !open) return null;
@@ -40,14 +39,17 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
   const description = workDescription(work, lang);
 
   const handleShare = async () => {
+    const url = `${window.location.origin}/?work=${work.id}`;
     try {
-      const url = `${window.location.origin}/work/${work.id}`;
+      if (navigator.share) {
+        await navigator.share({ title, url });
+        return;
+      }
       await navigator.clipboard.writeText(url);
-      toast({
-        description: t('share.copied'),
-      });
+      toast.success(t('share.copied'));
     } catch (error) {
-      console.error('Failed to copy to clipboard:', error);
+      // Пользователь отменил «Поделиться» или буфер недоступен — не критично.
+      console.error('Share failed:', error);
     }
   };
 

@@ -66,7 +66,7 @@ export default function Header(): JSX.Element {
             <button
               key={link.id}
               onClick={() => scrollToSection(link.id)}
-              className="text-foreground hover:text-accent transition-colors duration-200"
+              className="relative text-foreground hover:text-accent transition-colors duration-200 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full"
             >
               {link.label}
             </button>

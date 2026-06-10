@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Upload, Loader2, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 const categories: Category[] = ['video', 'music', 'game', 'code', 'graphics', 'drawing'];
 const mediaTypes: MediaType[] = ['video', 'audio', 'image', 'gallery', 'embed', 'code'];
@@ -131,7 +132,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       setValue('cover_url', publicUrl);
     } catch (error) {
       console.error('Error uploading cover:', error);
-      alert(t('admin.works.err_upload'));
+      toast.error(t('admin.works.err_upload'));
     } finally {
       setUploadingCover(false);
     }
@@ -159,7 +160,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       setValue('media_url', publicUrl);
     } catch (error) {
       console.error('Error uploading media:', error);
-      alert(t('admin.works.err_upload'));
+      toast.error(t('admin.works.err_upload'));
     } finally {
       setUploadingMedia(false);
     }
@@ -193,7 +194,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       setValue('gallery_urls', newUrls);
     } catch (error) {
       console.error('Error uploading gallery:', error);
-      alert(t('admin.works.err_upload'));
+      toast.error(t('admin.works.err_upload'));
     } finally {
       setUploadingGallery(false);
     }
@@ -210,17 +211,17 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
     try {
       // Validate that media_url is provided for certain types
       if (['video', 'audio', 'embed'].includes(data.media_type) && !data.media_url) {
-        alert(t('admin.works.err_media'));
+        toast.error(t('admin.works.err_media'));
         return;
       }
 
       if (data.media_type === 'image' && !data.media_url) {
-        alert(t('admin.works.err_media'));
+        toast.error(t('admin.works.err_media'));
         return;
       }
 
       if (data.media_type === 'gallery' && (!data.gallery_urls || data.gallery_urls.length === 0)) {
-        alert(t('admin.works.err_gallery'));
+        toast.error(t('admin.works.err_gallery'));
         return;
       }
 
@@ -255,7 +256,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       onSave();
     } catch (error) {
       console.error('Error saving work:', error);
-      alert(t('admin.works.err_save'));
+      toast.error(t('admin.works.err_save'));
     } finally {
       setIsLoading(false);
     }
