@@ -207,6 +207,9 @@ export default function Portfolio() {
               size={18}
             />
             <Input
+              type="search"
+              name="search"
+              autoComplete="off"
               placeholder={t('portfolio.search')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

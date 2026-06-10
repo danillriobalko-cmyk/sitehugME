@@ -238,6 +238,7 @@ export default function Contact() {
                       <FormControl>
                         <Input
                           placeholder="Your name"
+                          autoComplete="name"
                           className="bg-background border-border text-foreground placeholder:text-muted-foreground"
                           {...field}
                         />
@@ -259,6 +260,7 @@ export default function Contact() {
                       <FormControl>
                         <Input
                           placeholder="Email, Telegram, or Phone"
+                          autoComplete="off"
                           className="bg-background border-border text-foreground placeholder:text-muted-foreground"
                           {...field}
                         />
@@ -280,6 +282,7 @@ export default function Contact() {
                       <FormControl>
                         <Textarea
                           placeholder="Your message"
+                          autoComplete="off"
                           className="bg-background border-border text-foreground placeholder:text-muted-foreground min-h-32 resize-none"
                           {...field}
                         />

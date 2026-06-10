@@ -32,6 +32,23 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
           </div>
         );
       }
+      // Direct video file (e.g. uploaded to Supabase Storage)
+      const isVideoFile =
+        /\.(mp4|webm|ogg|ogv|mov|m4v)(\?.*)?$/i.test(work.media_url) ||
+        work.media_url.includes('/storage/v1/object/');
+      if (isVideoFile) {
+        return (
+          <div className={`w-full aspect-video rounded-lg overflow-hidden bg-black ${className}`}>
+            <video
+              src={work.media_url}
+              controls
+              playsInline
+              poster={work.cover_url || undefined}
+              className="w-full h-full object-contain"
+            />
+          </div>
+        );
+      }
       // Fallback to cover image
       if (work.cover_url) {
         return (
