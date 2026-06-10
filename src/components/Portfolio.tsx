@@ -58,6 +58,8 @@ function WorkCard({ work, onOpenModal }: WorkCardProps) {
             <img
               src={work.cover_url}
               alt={title}
+              draggable={false}
+              onContextMenu={(e) => e.preventDefault()}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (

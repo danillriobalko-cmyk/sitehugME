@@ -113,7 +113,9 @@ export function LightboxGallery({
             key={safeIndex}
             src={images[safeIndex]}
             alt={`Gallery image ${safeIndex + 1}`}
-            className="max-w-full max-h-[85vh] object-contain rounded-lg"
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
+            className="max-w-full max-h-[85vh] object-contain rounded-lg select-none"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}

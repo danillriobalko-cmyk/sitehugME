@@ -43,6 +43,9 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
               src={work.media_url}
               controls
               playsInline
+              controlsList="nodownload"
+              disablePictureInPicture
+              onContextMenu={(e) => e.preventDefault()}
               poster={work.cover_url || undefined}
               className="w-full h-full object-contain"
             />
@@ -55,6 +58,8 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
           <img
             src={work.cover_url}
             alt={work.title}
+            draggable={false}
+            onContextMenu={(e) => e.preventDefault()}
             className={`w-full h-full object-cover rounded-lg ${className}`}
           />
         );
@@ -110,6 +115,8 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
         <img
           src={imageUrl}
           alt={work.title}
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
           className={`w-full h-full object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity ${className}`}
         />
       );
@@ -121,6 +128,8 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
         <img
           src={work.cover_url}
           alt={work.title}
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
           className={`w-full h-full object-cover rounded-lg ${className}`}
         />
       );

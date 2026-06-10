@@ -74,6 +74,8 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
                   <img
                     src={work.cover_url || ''}
                     alt={title}
+                    draggable={false}
+                    onContextMenu={(e) => e.preventDefault()}
                     className="w-full h-full object-cover"
                   />
                 </div>
