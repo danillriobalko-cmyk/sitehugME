@@ -70,7 +70,7 @@ export default function Hero(): JSX.Element {
     >
       {/* Background Gradient Glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-15"
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-3xl opacity-15 animate-float-slow"
           style={{
             background: 'radial-gradient(ellipse at 50% 0%, #7C3AED, transparent)',
           }}
@@ -96,7 +96,7 @@ export default function Hero(): JSX.Element {
         {/* Main Heading */}
         <motion.h1
           variants={itemVariants}
-          className="text-5xl sm:text-7xl md:text-8xl font-bold text-accent font-space-grotesk mb-6 leading-tight"
+          className="text-5xl sm:text-7xl md:text-8xl font-bold text-gradient font-space-grotesk mb-6 leading-tight pb-1"
         >
           hugME
         </motion.h1>
@@ -131,7 +131,7 @@ export default function Hero(): JSX.Element {
           <Button
             onClick={() => scrollToSection('portfolio')}
             size="lg"
-            className="bg-accent text-accent-foreground hover:bg-accent/90 flex items-center justify-center gap-2"
+            className="bg-accent text-accent-foreground hover:bg-accent/90 flex items-center justify-center gap-2 transition-shadow hover:shadow-[0_0_28px_rgba(124,58,237,0.55)]"
           >
             {t('hero.cta.works')}
             <ArrowRight size={18} />

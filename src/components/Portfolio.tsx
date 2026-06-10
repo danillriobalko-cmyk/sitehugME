@@ -153,7 +153,7 @@ export default function Portfolio() {
       {/* Background Gradient */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute bottom-0 right-1/4 w-[600px] h-[400px] rounded-full blur-3xl opacity-10"
+          className="absolute bottom-0 right-1/4 w-[600px] h-[400px] rounded-full blur-3xl opacity-10 animate-float-slow-rev"
           style={{
             background: 'radial-gradient(ellipse at 50% 100%, #7C3AED, transparent)',
           }}

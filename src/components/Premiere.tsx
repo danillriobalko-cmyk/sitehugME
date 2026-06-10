@@ -48,7 +48,7 @@ export function Premiere(): JSX.Element | null {
   return (
     <section id="premiere" className="relative py-20">
       {/* Accent glow background */}
-      <div className="absolute -top-40 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none animate-float-slow" />
 
       <div className="container mx-auto px-4">
         <motion.div
@@ -60,7 +60,7 @@ export function Premiere(): JSX.Element | null {
         >
           {/* Label */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="w-2 h-2 rounded-full bg-accent" />
+            <div className="w-2 h-2 rounded-full bg-accent animate-soft-pulse" />
             <span className="text-sm font-medium text-accent uppercase tracking-wider">
               {t('premiere.label')}
             </span>

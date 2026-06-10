@@ -3,6 +3,7 @@ import { LangProvider } from '@/hooks/use-lang';
 import { AuthProvider } from '@/hooks/use-auth';
 import { Toaster } from '@/components/ui/sonner';
 import Preloader from '@/components/Preloader';
+import { ScrollProgress } from '@/components/ScrollProgress';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import { Premiere } from '@/components/Premiere';
@@ -34,6 +35,7 @@ function App() {
       <AuthProvider>
         <LangProvider>
           <div className="min-h-screen bg-background text-foreground grain-overlay">
+            <ScrollProgress />
             <Preloader />
             <Routes>
               <Route path="/" element={<HomePage />} />

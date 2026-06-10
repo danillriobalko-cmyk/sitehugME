@@ -117,14 +117,79 @@ html {
 
 /* Card hover glow */
 .card-glow {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
 .card-glow:hover {
-  box-shadow: 0 0 30px rgba(124,58,237,0.15);
-  transform: translateY(-2px);
+  box-shadow: 0 14px 44px -10px rgba(124,58,237,0.40);
+  transform: translateY(-6px);
 }
 
 /* Lightbox overlay */
 .lightbox-overlay {
   background: rgba(10,10,11,0.95);
+}
+
+/* ===== Extra visual effects ===== */
+
+/* Accent gradient text */
+.text-gradient {
+  background: linear-gradient(120deg, #C4B5FD 0%, #7C3AED 45%, #A78BFA 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: gradient-pan 8s ease infinite;
+}
+@keyframes gradient-pan {
+  0% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
+
+/* Slowly drifting background glows */
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(24px, -22px) scale(1.08); }
+}
+.animate-float-slow {
+  animation: float-slow 14s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes float-slow-rev {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-28px, 18px) scale(1.1); }
+}
+.animate-float-slow-rev {
+  animation: float-slow-rev 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Soft pulsing opacity for accent dots / badges */
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.animate-soft-pulse {
+  animation: soft-pulse 2.4s ease-in-out infinite;
+}
+
+/* Gentle floating (for small accent elements) */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-bob {
+  animation: bob 4s ease-in-out infinite;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-float-slow-rev,
+  .animate-soft-pulse,
+  .animate-bob,
+  .text-gradient {
+    animation: none !important;
+  }
 }
