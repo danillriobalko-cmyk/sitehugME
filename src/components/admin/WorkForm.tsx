@@ -44,8 +44,10 @@ function sanitizeFileName(name: string): string {
 
 const workSchema = z.object({
   title: z.string().min(1, 'Title is required'),
+  title_en: z.string().optional().nullable(),
   category: z.enum(['video', 'music', 'game', 'code', 'graphics', 'drawing']),
   description: z.string().optional().nullable(),
+  description_en: z.string().optional().nullable(),
   year: z.number().int().optional().nullable(),
   media_type: z.enum(['video', 'audio', 'image', 'gallery', 'embed']),
   media_url: z.string().optional().nullable(),
@@ -90,8 +92,10 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
     resolver: zodResolver(workSchema),
     defaultValues: work || {
       title: '',
+      title_en: null,
       category: 'video',
       description: null,
+      description_en: null,
       year: null,
       media_type: 'video',
       media_url: null,
@@ -223,7 +227,9 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       const payload = {
         ...data,
         year: data.year || null,
+        title_en: data.title_en || null,
         description: data.description || null,
+        description_en: data.description_en || null,
         media_url: data.media_url || null,
         cover_url: data.cover_url || null,
         gallery_urls: data.gallery_urls || null,
@@ -305,6 +311,18 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="title_en" className="text-slate-300">
+              Title (EN) — название по-английски
+            </Label>
+            <Input
+              id="title_en"
+              {...register('title_en')}
+              className="bg-slate-800 border-slate-700 text-white"
+              placeholder="English title (optional)"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="description" className="text-slate-300">
               {t('admin.works.description')}
             </Label>
@@ -313,6 +331,19 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
               {...register('description')}
               className="bg-slate-800 border-slate-700 text-white"
               rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description_en" className="text-slate-300">
+              Description (EN) — описание по-английски
+            </Label>
+            <Textarea
+              id="description_en"
+              {...register('description_en')}
+              className="bg-slate-800 border-slate-700 text-white"
+              rows={3}
+              placeholder="English description (optional)"
             />
           </div>
 

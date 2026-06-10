@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useLang } from '@/hooks/use-lang';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { supabase } from '@/lib/supabase';
-import { type Work, type Category } from '@/lib/types';
+import { type Work, type Category, workTitle } from '@/lib/types';
 import { WorkModal } from '@/components/WorkModal';
 import { useEffect } from 'react';
 
@@ -36,8 +36,9 @@ interface WorkCardProps {
 }
 
 function WorkCard({ work, onOpenModal }: WorkCardProps) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { ref, isVisible } = useScrollReveal();
+  const title = workTitle(work, lang);
 
   const placeholderGradient = `linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%)`;
 
@@ -56,7 +57,7 @@ function WorkCard({ work, onOpenModal }: WorkCardProps) {
           {work.cover_url ? (
             <img
               src={work.cover_url}
-              alt={work.title}
+              alt={title}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
@@ -71,7 +72,7 @@ function WorkCard({ work, onOpenModal }: WorkCardProps) {
         <div className="p-4 flex-1 flex flex-col justify-between">
           <div>
             <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2 group-hover:text-accent transition-colors">
-              {work.title}
+              {title}
             </h3>
             <div className="flex items-center gap-3 mb-2">
               <Badge variant="outline" className="text-xs bg-accent/10 text-accent border-accent/30">

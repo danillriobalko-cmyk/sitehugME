@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 import { useLang } from '@/hooks/use-lang';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import { supabase } from '@/lib/supabase';
-import { type Work } from '@/lib/types';
+import { type Work, workTitle, workDescription } from '@/lib/types';
 import { MediaRenderer } from '@/components/MediaRenderer';
 import { cn } from '@/lib/utils';
 
 export function Premiere(): JSX.Element | null {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { ref, isVisible } = useScrollReveal(0.1);
   const [work, setWork] = useState<Work | null>(null);
   const [loading, setLoading] = useState(true);
@@ -90,7 +90,7 @@ export function Premiere(): JSX.Element | null {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-3xl lg:text-4xl font-bold text-white mb-4"
                 >
-                  {work.title}
+                  {workTitle(work, lang)}
                 </motion.h2>
 
                 {/* Category and Year */}
@@ -111,14 +111,14 @@ export function Premiere(): JSX.Element | null {
                 </motion.div>
 
                 {/* Description */}
-                {work.description && (
+                {workDescription(work, lang) && (
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
                     animate={isVisible ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6, delay: 0.4 }}
                     className="text-foreground leading-relaxed mb-6"
                   >
-                    {work.description}
+                    {workDescription(work, lang)}
                   </motion.p>
                 )}
               </div>

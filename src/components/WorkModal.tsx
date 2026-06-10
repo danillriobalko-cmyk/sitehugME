@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Share2 } from 'lucide-react';
 import { useLang } from '@/hooks/use-lang';
 import { useToast } from '@/hooks/use-toast';
-import { type Work, type Category } from '@/lib/types';
+import { type Work, type Category, workTitle, workDescription } from '@/lib/types';
 import { MediaRenderer } from '@/components/MediaRenderer';
 import { LightboxGallery } from '@/components/LightboxGallery';
 
@@ -30,11 +30,14 @@ interface WorkModalProps {
 }
 
 export function WorkModal({ work, open, onClose }: WorkModalProps) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { toast } = useToast();
   const [galleryOpen, setGalleryOpen] = useState(false);
 
   if (!work || !open) return null;
+
+  const title = workTitle(work, lang);
+  const description = workDescription(work, lang);
 
   const handleShare = async () => {
     try {
@@ -55,9 +58,9 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-border/50 p-0">
           {/* Accessible title/description (visually hidden) */}
-          <DialogTitle className="sr-only">{work.title}</DialogTitle>
+          <DialogTitle className="sr-only">{title}</DialogTitle>
           <DialogDescription className="sr-only">
-            {work.description || t(categoryLabels[work.category])}
+            {description || t(categoryLabels[work.category])}
           </DialogDescription>
 
           <div className="p-6">
@@ -70,7 +73,7 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
                 >
                   <img
                     src={work.cover_url || ''}
-                    alt={work.title}
+                    alt={title}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -82,7 +85,7 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
             {/* Content */}
             <div className="space-y-4">
               {/* Title */}
-              <h2 className="text-2xl font-bold text-white">{work.title}</h2>
+              <h2 className="text-2xl font-bold text-white">{title}</h2>
 
               {/* Meta Info */}
               <div className="flex items-center gap-3 flex-wrap">
@@ -95,9 +98,9 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
               </div>
 
               {/* Description */}
-              {work.description && (
+              {description && (
                 <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                  {work.description}
+                  {description}
                 </p>
               )}
 
