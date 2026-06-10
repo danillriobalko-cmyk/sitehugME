@@ -23,6 +23,25 @@ import { Upload, Loader2, X } from 'lucide-react';
 const categories: Category[] = ['video', 'music', 'game', 'code', 'graphics', 'drawing'];
 const mediaTypes: MediaType[] = ['video', 'audio', 'image', 'gallery', 'embed'];
 
+// Supabase Storage keys allow only a limited ASCII charset.
+// Cyrillic letters, spaces, parentheses etc. cause "Invalid key" errors,
+// so we strip the filename down to a safe form before uploading.
+function sanitizeFileName(name: string): string {
+  const dot = name.lastIndexOf('.');
+  const rawBase = dot >= 0 ? name.slice(0, dot) : name;
+  const rawExt = dot >= 0 ? name.slice(dot + 1) : '';
+
+  const base =
+    rawBase
+      .replace(/[^a-zA-Z0-9._-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .slice(0, 40) || 'file';
+  const ext = rawExt.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+  return ext ? `${base}.${ext}` : base;
+}
+
 const workSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   category: z.enum(['video', 'music', 'game', 'code', 'graphics', 'drawing']),
@@ -93,7 +112,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
     setUploadingCover(true);
     try {
       const timestamp = Date.now();
-      const path = `covers/${timestamp}-${file.name}`;
+      const path = `covers/${timestamp}-${sanitizeFileName(file.name)}`;
 
       const { error: uploadError } = await supabase.storage
         .from('covers')
@@ -121,7 +140,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
     setUploadingMedia(true);
     try {
       const timestamp = Date.now();
-      const path = `media/${timestamp}-${file.name}`;
+      const path = `media/${timestamp}-${sanitizeFileName(file.name)}`;
 
       const { error: uploadError } = await supabase.storage
         .from('media')
@@ -152,7 +171,9 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
 
       for (const file of Array.from(files)) {
         const timestamp = Date.now();
-        const path = `gallery/${timestamp}-${Math.random()}-${file.name}`;
+        const path = `gallery/${timestamp}-${Math.round(
+          Math.random() * 1e9
+        )}-${sanitizeFileName(file.name)}`;
 
         const { error: uploadError } = await supabase.storage
           .from('media')
