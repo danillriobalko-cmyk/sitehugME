@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { X, Share2 } from 'lucide-react';
+import { Share2 } from 'lucide-react';
 import { useLang } from '@/hooks/use-lang';
 import { useToast } from '@/hooks/use-toast';
 import { type Work, type Category } from '@/lib/types';
@@ -59,15 +59,6 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
           <DialogDescription className="sr-only">
             {work.description || t(categoryLabels[work.category])}
           </DialogDescription>
-
-          {/* Close Button */}
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 z-50 p-2 rounded-md hover:bg-accent/20 transition-colors"
-            aria-label={t('lightbox.close')}
-          >
-            <X size={20} className="text-white" />
-          </button>
 
           <div className="p-6">
             {/* Media Area */}
