@@ -1,7 +1,7 @@
 import type { Lang } from './i18n';
 
 export type Category = 'video' | 'music' | 'game' | 'code' | 'graphics' | 'drawing';
-export type MediaType = 'video' | 'audio' | 'image' | 'gallery' | 'embed';
+export type MediaType = 'video' | 'audio' | 'image' | 'gallery' | 'embed' | 'code';
 
 export interface Work {
   id: string;

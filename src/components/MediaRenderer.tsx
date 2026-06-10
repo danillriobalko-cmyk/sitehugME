@@ -1,4 +1,4 @@
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Download, Code } from 'lucide-react';
 import { type Work } from '@/lib/types';
 
 export interface MediaRendererProps {
@@ -175,6 +175,34 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
           <ExternalLink size={20} />
           View Project
         </a>
+      );
+    }
+
+    case 'code': {
+      if (!work.media_url && !work.cover_url) return null;
+      const isGithub = work.media_url?.includes('github.com');
+      return (
+        <div
+          className={`w-full rounded-lg overflow-hidden bg-cover bg-center ${className}`}
+          style={work.cover_url ? { backgroundImage: `url(${work.cover_url})` } : {}}
+        >
+          <div className="w-full h-full min-h-48 backdrop-blur-sm bg-black/60 flex items-center justify-center p-8">
+            {work.media_url ? (
+              <a
+                href={work.media_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                {...(isGithub ? {} : { download: true })}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors"
+              >
+                {isGithub ? <Github size={20} /> : <Download size={20} />}
+                {isGithub ? 'View on GitHub' : 'Скачать / Открыть'}
+              </a>
+            ) : (
+              <Code size={48} className="text-white/70" />
+            )}
+          </div>
+        </div>
       );
     }
 

@@ -21,7 +21,7 @@ import {
 import { Upload, Loader2, X } from 'lucide-react';
 
 const categories: Category[] = ['video', 'music', 'game', 'code', 'graphics', 'drawing'];
-const mediaTypes: MediaType[] = ['video', 'audio', 'image', 'gallery', 'embed'];
+const mediaTypes: MediaType[] = ['video', 'audio', 'image', 'gallery', 'embed', 'code'];
 
 // Supabase Storage keys allow only a limited ASCII charset.
 // Cyrillic letters, spaces, parentheses etc. cause "Invalid key" errors,
@@ -49,7 +49,7 @@ const workSchema = z.object({
   description: z.string().optional().nullable(),
   description_en: z.string().optional().nullable(),
   year: z.number().int().optional().nullable(),
-  media_type: z.enum(['video', 'audio', 'image', 'gallery', 'embed']),
+  media_type: z.enum(['video', 'audio', 'image', 'gallery', 'embed', 'code']),
   media_url: z.string().optional().nullable(),
   cover_url: z.string().optional().nullable(),
   gallery_urls: z.array(z.string()).optional().nullable(),
@@ -388,20 +388,28 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
             </div>
           </div>
 
-          {['video', 'audio', 'embed'].includes(mediaType) && (
+          {['video', 'audio', 'embed', 'code'].includes(mediaType) && (
             <div className="space-y-2">
               <Label htmlFor="media_url" className="text-slate-300">
-                {t('admin.works.media_url')}
+                {mediaType === 'code'
+                  ? 'Ссылка (GitHub / демо / сайт)'
+                  : t('admin.works.media_url')}
               </Label>
               <Input
                 id="media_url"
                 type="url"
                 {...register('media_url')}
                 className="bg-slate-800 border-slate-700 text-white"
-                placeholder="https://..."
+                placeholder={
+                  mediaType === 'code'
+                    ? 'https://github.com/... (необязательно)'
+                    : 'https://...'
+                }
               />
 
-              {(mediaType === 'video' || mediaType === 'audio') && (
+              {(mediaType === 'video' ||
+                mediaType === 'audio' ||
+                mediaType === 'code') && (
                 <>
                   <p className="text-xs text-slate-400 pt-1">
                     — или загрузите файл с компьютера —
@@ -409,7 +417,13 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
                   <input
                     ref={mediaFileRef}
                     type="file"
-                    accept={mediaType === 'video' ? 'video/*' : 'audio/*'}
+                    accept={
+                      mediaType === 'video'
+                        ? 'video/*'
+                        : mediaType === 'audio'
+                        ? 'audio/*'
+                        : undefined
+                    }
                     onChange={handleMediaUpload}
                     className="hidden"
                   />
@@ -429,7 +443,9 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
                         <Upload className="h-4 w-4" />
                         {mediaType === 'video'
                           ? 'Загрузить видео-файл'
-                          : 'Загрузить аудио-файл'}
+                          : mediaType === 'audio'
+                          ? 'Загрузить аудио-файл'
+                          : 'Загрузить файл / архив (zip, exe, apk…)'}
                       </>
                     )}
                   </Button>
