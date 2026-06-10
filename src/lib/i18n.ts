@@ -21,7 +21,6 @@ const ru: Translations = {
   'hero.role.design': 'Дизайн',
   'hero.role.drawing': 'Рисунки',
   'premiere.label': 'Премьера',
-  'premiere.cta': 'Смотреть',
   'portfolio.filter.all': 'Все',
   'portfolio.filter.video': 'Видео',
   'portfolio.filter.music': 'Музыка',
@@ -85,7 +84,6 @@ const ru: Translations = {
   'lightbox.close': 'Закрыть',
   'lightbox.prev': 'Назад',
   'lightbox.next': 'Далее',
-  'view_github': 'Смотреть на GitHub',
 };
 
 const en: Translations = {
@@ -105,7 +103,6 @@ const en: Translations = {
   'hero.role.design': 'Design',
   'hero.role.drawing': 'Illustration',
   'premiere.label': 'Premiere',
-  'premiere.cta': 'Watch',
   'portfolio.filter.all': 'All',
   'portfolio.filter.video': 'Video',
   'portfolio.filter.music': 'Music',
@@ -169,7 +166,6 @@ const en: Translations = {
   'lightbox.close': 'Close',
   'lightbox.prev': 'Previous',
   'lightbox.next': 'Next',
-  'view_github': 'View on GitHub',
 };
 
 const translations: Record<Lang, Translations> = { ru, en };
