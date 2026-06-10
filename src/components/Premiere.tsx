@@ -123,15 +123,6 @@ export function Premiere(): JSX.Element | null {
                 )}
               </div>
 
-              {/* CTA Button */}
-              <motion.button
-                initial={{ opacity: 0, y: 10 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="px-6 py-3 bg-accent text-accent-foreground font-semibold rounded-lg hover:bg-accent/90 transition-colors duration-200 w-full lg:w-auto"
-              >
-                {t('premiere.cta')}
-              </motion.button>
             </div>
           </div>
         </motion.div>
