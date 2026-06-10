@@ -109,7 +109,7 @@ export function AdminPanel() {
             onClick={handleCancel}
             className="mb-6 bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800"
           >
-            Back
+            {t('admin.back')}
           </Button>
           <WorkForm
             work={selectedWork}
@@ -125,7 +125,7 @@ export function AdminPanel() {
     <div className="min-h-screen bg-slate-950 p-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-white">hugME Admin</h1>
+          <h1 className="text-3xl font-bold text-white">{t('admin.title')}</h1>
           <Button
             onClick={handleLogout}
             className="bg-red-600 hover:bg-red-700 text-white gap-2"
@@ -157,7 +157,7 @@ export function AdminPanel() {
             {worksLoading ? (
               <Card className="bg-slate-900 border-slate-800">
                 <CardContent className="p-6 text-slate-400">
-                  Loading...
+                  {t('admin.loading')}
                 </CardContent>
               </Card>
             ) : works.length === 0 ? (
@@ -181,7 +181,7 @@ export function AdminPanel() {
                             />
                           ) : (
                             <div className="h-20 w-20 bg-slate-800 rounded flex items-center justify-center text-slate-500">
-                              No image
+                              {t('admin.no_image')}
                             </div>
                           )}
                         </div>
@@ -226,7 +226,7 @@ export function AdminPanel() {
             {messagesLoading ? (
               <Card className="bg-slate-900 border-slate-800">
                 <CardContent className="p-6 text-slate-400">
-                  Loading...
+                  {t('admin.loading')}
                 </CardContent>
               </Card>
             ) : messages.length === 0 ? (
@@ -242,7 +242,7 @@ export function AdminPanel() {
                     <div className="flex items-start justify-between">
                       <div>
                         <CardTitle className="text-white">
-                          {message.name || 'Anonymous'}
+                          {message.name || t('admin.anonymous')}
                         </CardTitle>
                         {message.contact && (
                           <p className="text-sm text-slate-400 mt-1">
@@ -268,20 +268,20 @@ export function AdminPanel() {
       <AlertDialog open={!!deleteConfirm} onOpenChange={() => setDeleteConfirm(null)}>
         <AlertDialogContent className="bg-slate-900 border-slate-800">
           <AlertDialogTitle className="text-white">
-            {t('admin.works.delete_confirm_title') || 'Delete Work'}
+            {t('admin.works.delete')}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-slate-400">
-            {t('admin.works.delete_confirm_desc') || 'Are you sure you want to delete this work?'}
+            {t('admin.works.delete_confirm')}
           </AlertDialogDescription>
           <div className="flex gap-4">
             <AlertDialogCancel className="bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700">
-              Cancel
+              {t('admin.works.cancel')}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => deleteConfirm && handleDeleteWork(deleteConfirm.work)}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              Delete
+              {t('admin.works.delete')}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>

@@ -131,7 +131,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       setValue('cover_url', publicUrl);
     } catch (error) {
       console.error('Error uploading cover:', error);
-      alert('Failed to upload cover image');
+      alert(t('admin.works.err_upload'));
     } finally {
       setUploadingCover(false);
     }
@@ -159,7 +159,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       setValue('media_url', publicUrl);
     } catch (error) {
       console.error('Error uploading media:', error);
-      alert('Failed to upload media');
+      alert(t('admin.works.err_upload'));
     } finally {
       setUploadingMedia(false);
     }
@@ -193,7 +193,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       setValue('gallery_urls', newUrls);
     } catch (error) {
       console.error('Error uploading gallery:', error);
-      alert('Failed to upload gallery images');
+      alert(t('admin.works.err_upload'));
     } finally {
       setUploadingGallery(false);
     }
@@ -210,17 +210,17 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
     try {
       // Validate that media_url is provided for certain types
       if (['video', 'audio', 'embed'].includes(data.media_type) && !data.media_url) {
-        alert(`Media URL is required for ${data.media_type}`);
+        alert(t('admin.works.err_media'));
         return;
       }
 
       if (data.media_type === 'image' && !data.media_url) {
-        alert('Image upload is required');
+        alert(t('admin.works.err_media'));
         return;
       }
 
       if (data.media_type === 'gallery' && (!data.gallery_urls || data.gallery_urls.length === 0)) {
-        alert('At least one gallery image is required');
+        alert(t('admin.works.err_gallery'));
         return;
       }
 
@@ -255,7 +255,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
       onSave();
     } catch (error) {
       console.error('Error saving work:', error);
-      alert('Failed to save work');
+      alert(t('admin.works.err_save'));
     } finally {
       setIsLoading(false);
     }
@@ -265,7 +265,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
     <Card className="bg-slate-900 border-slate-800">
       <CardHeader>
         <CardTitle className="text-white">
-          {work ? `Edit: ${work.title}` : 'Add New Work'}
+          {work ? `${t('admin.works.edit')}: ${work.title}` : t('admin.works.new_title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -312,13 +312,13 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
 
           <div className="space-y-2">
             <Label htmlFor="title_en" className="text-slate-300">
-              Title (EN) — название по-английски
+              {t('admin.works.title_en')}
             </Label>
             <Input
               id="title_en"
               {...register('title_en')}
               className="bg-slate-800 border-slate-700 text-white"
-              placeholder="English title (optional)"
+              placeholder={t('admin.works.optional')}
             />
           </div>
 
@@ -336,14 +336,14 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
 
           <div className="space-y-2">
             <Label htmlFor="description_en" className="text-slate-300">
-              Description (EN) — описание по-английски
+              {t('admin.works.description_en')}
             </Label>
             <Textarea
               id="description_en"
               {...register('description_en')}
               className="bg-slate-800 border-slate-700 text-white"
               rows={3}
-              placeholder="English description (optional)"
+              placeholder={t('admin.works.optional')}
             />
           </div>
 
@@ -412,7 +412,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
                 mediaType === 'code') && (
                 <>
                   <p className="text-xs text-slate-400 pt-1">
-                    — или загрузите файл с компьютера —
+                    {t('admin.works.upload_or')}
                   </p>
                   <input
                     ref={mediaFileRef}
@@ -436,7 +436,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
                     {uploadingMedia ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        Uploading...
+                        {t('admin.works.uploading')}
                       </>
                     ) : (
                       <>
@@ -473,12 +473,12 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
                 {uploadingMedia ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Uploading...
+                    {t('admin.works.uploading')}
                   </>
                 ) : (
                   <>
                     <Upload className="h-4 w-4" />
-                    Upload Image
+                    {t('admin.works.upload_image')}
                   </>
                 )}
               </Button>
@@ -512,12 +512,12 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
                 {uploadingGallery ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Uploading...
+                    {t('admin.works.uploading')}
                   </>
                 ) : (
                   <>
                     <Upload className="h-4 w-4" />
-                    Upload Gallery Images
+                    {t('admin.works.upload_gallery')}
                   </>
                 )}
               </Button>
@@ -567,7 +567,7 @@ export function WorkForm({ work, onSave, onCancel }: WorkFormProps) {
               ) : (
                 <>
                   <Upload className="h-4 w-4" />
-                  Upload Cover Image
+                  {t('admin.works.upload_cover')}
                 </>
               )}
             </Button>
