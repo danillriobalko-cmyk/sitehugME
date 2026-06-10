@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { X, Share2 } from 'lucide-react';
@@ -49,6 +54,12 @@ export function WorkModal({ work, open, onClose }: WorkModalProps) {
     <>
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-border/50 p-0">
+          {/* Accessible title/description (visually hidden) */}
+          <DialogTitle className="sr-only">{work.title}</DialogTitle>
+          <DialogDescription className="sr-only">
+            {work.description || t(categoryLabels[work.category])}
+          </DialogDescription>
+
           {/* Close Button */}
           <button
             onClick={onClose}
