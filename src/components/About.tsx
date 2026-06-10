@@ -9,6 +9,9 @@ interface StatCounts {
   video: number;
   music: number;
   game: number;
+  code: number;
+  graphics: number;
+  drawing: number;
   total: number;
 }
 
@@ -95,6 +98,9 @@ export default function About() {
     video: 0,
     music: 0,
     game: 0,
+    code: 0,
+    graphics: 0,
+    drawing: 0,
     total: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -102,6 +108,9 @@ export default function About() {
   const videoCounter = useCounter(counts.video, 1500, false);
   const musicCounter = useCounter(counts.music, 1500, false);
   const gameCounter = useCounter(counts.game, 1500, false);
+  const codeCounter = useCounter(counts.code, 1500, false);
+  const graphicsCounter = useCounter(counts.graphics, 1500, false);
+  const drawingCounter = useCounter(counts.drawing, 1500, false);
   const totalCounter = useCounter(counts.total, 1500, false);
 
   useEffect(() => {
@@ -110,17 +119,28 @@ export default function About() {
         const { data, error } = await supabase.from('works').select('category');
         if (error) throw error;
 
-        const categoryCounts = {
+        const categoryCounts: StatCounts = {
           video: 0,
           music: 0,
           game: 0,
+          code: 0,
+          graphics: 0,
+          drawing: 0,
           total: data?.length || 0,
         };
 
-        data?.forEach((work: any) => {
-          if (work.category === 'video') categoryCounts.video++;
-          else if (work.category === 'music') categoryCounts.music++;
-          else if (work.category === 'game') categoryCounts.game++;
+        data?.forEach((work: { category?: string }) => {
+          const c = work.category;
+          if (
+            c === 'video' ||
+            c === 'music' ||
+            c === 'game' ||
+            c === 'code' ||
+            c === 'graphics' ||
+            c === 'drawing'
+          ) {
+            categoryCounts[c] += 1;
+          }
         });
 
         setCounts(categoryCounts);
@@ -139,12 +159,25 @@ export default function About() {
       videoCounter.start();
       musicCounter.start();
       gameCounter.start();
+      codeCounter.start();
+      graphicsCounter.start();
+      drawingCounter.start();
       totalCounter.start();
     }
   }, [isVisible]);
 
   const currentSkills = lang === 'ru' ? skillsRu : skills;
   const currentMilestones = lang === 'ru' ? milestonesRu : milestones;
+
+  const stats = [
+    { value: videoCounter.count, label: t('about.stats.video') },
+    { value: musicCounter.count, label: t('about.stats.tracks') },
+    { value: gameCounter.count, label: t('about.stats.games') },
+    { value: codeCounter.count, label: t('about.stats.code') },
+    { value: graphicsCounter.count, label: t('about.stats.graphics') },
+    { value: drawingCounter.count, label: t('about.stats.drawing') },
+    { value: totalCounter.count, label: t('about.stats.projects') },
+  ];
 
   return (
     <section
@@ -202,42 +235,17 @@ export default function About() {
           {/* Right Column - Stats & Timeline */}
           <div className="space-y-12">
             {/* Statistics Grid */}
-            <div className="grid grid-cols-2 gap-6">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-accent mb-2">
-                  {isLoading ? '—' : videoCounter.count}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-3xl sm:text-4xl font-bold text-accent mb-1">
+                    {isLoading ? '—' : stat.value}
+                  </div>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    {stat.label}
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('about.stats.video')}
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="text-4xl font-bold text-accent mb-2">
-                  {isLoading ? '—' : musicCounter.count}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('about.stats.tracks')}
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="text-4xl font-bold text-accent mb-2">
-                  {isLoading ? '—' : gameCounter.count}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('about.stats.games')}
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="text-4xl font-bold text-accent mb-2">
-                  {isLoading ? '—' : totalCounter.count}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {t('about.stats.projects')}
-                </p>
-              </div>
+              ))}
             </div>
 
             {/* Timeline — 3D cards */}
