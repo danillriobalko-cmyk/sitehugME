@@ -30,6 +30,7 @@ const ru: Translations = {
   'portfolio.filter.drawing': 'Рисунки',
   'portfolio.search': 'Поиск работ...',
   'portfolio.empty': 'Работы не найдены',
+  'portfolio.note': 'Здесь собраны не все работы — портфолио постоянно пополняется.',
   'about.title': 'Обо мне',
   'about.description':
     'Мультидисциплинарный творец, объединяющий видеомонтаж, музыку, разработку игр, программирование, графический дизайн и иллюстрации в единое творческое пространство.',
@@ -112,6 +113,7 @@ const en: Translations = {
   'portfolio.filter.drawing': 'Drawing',
   'portfolio.search': 'Search works...',
   'portfolio.empty': 'No works found',
+  'portfolio.note': 'Not every project is shown here — the portfolio is updated regularly.',
   'about.title': 'About Me',
   'about.description':
     'A multidisciplinary creator blending video editing, music, game development, programming, graphic design and illustration into one creative space.',

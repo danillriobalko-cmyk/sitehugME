@@ -173,6 +173,10 @@ export default function Portfolio() {
             {t('nav.portfolio')}
           </h2>
           <div className="w-16 h-1 bg-accent rounded-full" />
+          <p className="mt-4 text-sm text-muted-foreground max-w-xl">
+            <span className="text-accent font-medium">P.S.</span>{' '}
+            {t('portfolio.note')}
+          </p>
         </motion.div>
 
         {/* Filters and Search */}
