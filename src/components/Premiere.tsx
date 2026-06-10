@@ -46,7 +46,7 @@ export function Premiere(): JSX.Element | null {
   }
 
   return (
-    <section id="premiere" className="relative py-20">
+    <section id="premiere" className="relative py-20 overflow-hidden">
       {/* Accent glow background */}
       <div className="absolute -top-40 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none animate-float-slow" />
 

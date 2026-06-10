@@ -149,16 +149,16 @@ html {
 
 /* Slowly drifting background glows */
 @keyframes float-slow {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(24px, -22px) scale(1.08); }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-22px) scale(1.06); }
 }
 .animate-float-slow {
   animation: float-slow 14s ease-in-out infinite;
   will-change: transform;
 }
 @keyframes float-slow-rev {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-28px, 18px) scale(1.1); }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(18px) scale(1.08); }
 }
 .animate-float-slow-rev {
   animation: float-slow-rev 18s ease-in-out infinite;

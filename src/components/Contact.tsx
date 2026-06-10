@@ -38,7 +38,7 @@ const contactMethods = [
   {
     icon: Phone,
     label: 'Phone',
-    value: 'В разработке',
+    value: null as string | null,
     copyable: false,
   },
   {
@@ -131,6 +131,7 @@ export default function Contact() {
               {contactMethods.map((method, idx) => {
                 const Icon = method.icon;
                 const isCopied = copiedIdx === idx;
+                const value = method.value ?? t('social.dev');
                 const inner = (
                   <>
                     <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center group-hover:text-accent transition-colors shrink-0">
@@ -141,7 +142,7 @@ export default function Contact() {
                         {method.label}
                       </p>
                       <p className="text-base text-foreground group-hover:text-accent transition-colors">
-                        {method.value}
+                        {value}
                       </p>
                     </div>
                     {method.copyable &&
@@ -157,7 +158,7 @@ export default function Contact() {
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => handleCopy(method.value, idx)}
+                    onClick={() => handleCopy(value, idx)}
                     className="w-full flex items-center gap-4 group cursor-pointer rounded-lg -mx-2 px-2 py-1 hover:bg-secondary/40 transition-colors"
                   >
                     {inner}

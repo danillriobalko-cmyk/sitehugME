@@ -148,7 +148,7 @@ export default function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative py-20 px-4 sm:px-6 lg:px-8"
+      className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
       {/* Background Gradient */}
       <div className="absolute inset-0 pointer-events-none">
