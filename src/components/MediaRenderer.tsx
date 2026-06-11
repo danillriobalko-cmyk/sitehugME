@@ -14,6 +14,21 @@ function getVideoEmbedUrl(url: string): string | null {
   return null;
 }
 
+// Строгая проверка домена: сравниваем именно hostname, а не подстроку.
+// (Чтобы `itch.io.evil.com` или `github.com.attacker.net` не проходили.)
+function getHostname(url: string): string {
+  try {
+    return new URL(url).hostname.toLowerCase();
+  } catch {
+    return '';
+  }
+}
+
+function isHost(url: string, domain: string): boolean {
+  const host = getHostname(url);
+  return host === domain || host.endsWith('.' + domain);
+}
+
 export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX.Element | null {
   switch (work.media_type) {
     case 'video': {
@@ -69,7 +84,7 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
 
     case 'audio': {
       if (!work.media_url) return null;
-      const isSoundCloud = work.media_url.includes('soundcloud.com');
+      const isSoundCloud = isHost(work.media_url, 'soundcloud.com');
 
       if (isSoundCloud) {
         return (
@@ -138,20 +153,21 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
     case 'embed': {
       if (!work.media_url) return null;
 
-      if (work.media_url.includes('itch.io')) {
+      if (isHost(work.media_url, 'itch.io')) {
         return (
           <div className={`w-full aspect-video rounded-lg overflow-hidden ${className}`}>
             <iframe
               src={work.media_url}
               title={work.title}
               allowFullScreen
+              sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-pointer-lock"
               className="w-full h-full"
             />
           </div>
         );
       }
 
-      if (work.media_url.includes('github.com')) {
+      if (isHost(work.media_url, 'github.com')) {
         return (
           <a
             href={work.media_url}
@@ -180,7 +196,7 @@ export function MediaRenderer({ work, className = '' }: MediaRendererProps): JSX
 
     case 'code': {
       if (!work.media_url && !work.cover_url) return null;
-      const isGithub = work.media_url?.includes('github.com');
+      const isGithub = work.media_url ? isHost(work.media_url, 'github.com') : false;
       return (
         <div
           className={`w-full rounded-lg overflow-hidden bg-cover bg-center ${className}`}

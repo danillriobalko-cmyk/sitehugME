@@ -54,6 +54,7 @@ export default function Contact() {
   const { ref, isVisible } = useScrollReveal(0.2);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const [honeypot, setHoneypot] = useState('');
 
   const handleCopy = async (value: string, idx: number) => {
     try {
@@ -79,6 +80,11 @@ export default function Contact() {
   });
 
   const onSubmit = async (values: ContactFormValues) => {
+    // Honeypot: скрытое поле заполняют только боты — тихо «успешно» выходим.
+    if (honeypot) {
+      form.reset();
+      return;
+    }
     setIsSubmitting(true);
     try {
       const { error } = await supabase.from('messages').insert({
@@ -179,6 +185,18 @@ export default function Contact() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6"
               >
+                {/* Honeypot — невидимое поле против ботов (люди его не видят) */}
+                <input
+                  type="text"
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                />
+
                 {/* Name Field */}
                 <FormField
                   control={form.control}
